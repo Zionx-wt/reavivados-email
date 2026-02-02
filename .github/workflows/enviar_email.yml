@@ -1,0 +1,29 @@
+name: Enviar Reavivados
+
+on:
+  schedule:
+    - cron: '0 9 * * *'  # 9h UTC = 6h Brasil
+  workflow_dispatch:  # permite rodar manualmente
+
+jobs:
+  enviar:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Baixar codigo
+      uses: actions/checkout@v4
+    
+    - name: Configurar Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Instalar dependencias
+      run: pip install -r requirements.txt
+    
+    - name: Executar script
+      env:
+        EMAIL_REMETENTE: ${{ secrets.EMAIL_REMETENTE }}
+        EMAIL_SENHA: ${{ secrets.EMAIL_SENHA }}
+        EMAIL_DESTINATARIO: ${{ secrets.EMAIL_DESTINATARIO }}
+      run: python reavivados.py
