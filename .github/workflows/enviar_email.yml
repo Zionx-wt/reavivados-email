@@ -2,24 +2,23 @@ name: Enviar Reavivados
 
 on:
   schedule:
-    - cron: '0 9 * * *'  # 9h UTC = 6h Brasil
-  workflow_dispatch:  # permite rodar manualmente
+    - cron: '0 9 * * *'
+  workflow_dispatch:
 
 jobs:
   enviar:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     
     steps:
-    - name: Baixar codigo
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
     
-    - name: Configurar Python
-      uses: actions/setup-python@v5
+    - uses: actions/setup-python@v5
       with:
         python-version: '3.11'
     
     - name: Instalar dependencias
-      run: pip install -r requirements.txt
+      run: pip install requests beautifulsoup4
     
     - name: Executar script
       env:
